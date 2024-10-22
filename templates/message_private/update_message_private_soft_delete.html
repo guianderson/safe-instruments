@@ -1,0 +1,180 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div id="app" class="intro-y flex flex-col sm:flex-row items-center mt-8">
+        <h2 class="text-lg font-medium mr-auto">
+            Apagar Mensagem
+        </h2>
+        <div class="form-check form-switch w-full sm:w-auto sm:ml-auto mt-3 sm:mt-0">
+            <!-- BEGIN: Alerts -->
+            {% if messages %}
+                {% for message in messages %}
+                    {% if message.tags == 'alert-danger' %}
+                        <div id="alert" class="alert alert-danger alert-dismissible show flex items-center mb-2"
+                             role="alert"><i
+                                data-lucide="alert-octagon" class="w-6 h-6 mr-2"></i>
+                            {{ message }}
+                            <button type="button" class="btn-close text-white" data-tw-dismiss="alert"
+                                    aria-label="Close"><i
+                                    data-lucide="x" class="w-4 h-4"></i></button>
+                        </div>
+                    {% endif %}
+
+                    {% if message.tags == 'alert-success' %}
+                        <div id="alert" class="alert alert-dark alert-dismissible show flex items-center mb-2"
+                             role="alert"><i data-lucide="check-circle" class="w-6 h-6 mr-2"></i>
+                            {{ message }}
+                            <button type="button" class="btn-close text-white" data-tw-dismiss="alert"
+                                    aria-label="Close"><i data-lucide="x" class="w-4 h-4"></i></button>
+                        </div>
+                    {% endif %}
+
+                    {% if message.tags == 'alert-warning' %}
+                        <div id="alert" class="alert alert-warning alert-dismissible show flex items-center mb-2"
+                             role="alert"><i
+                                data-lucide="alert-circle" class="w-6 h-6 mr-2"></i>
+                            {{ message }}
+                            <button type="button" class="btn-close" data-tw-dismiss="alert"
+                                    aria-label="Close"><i
+                                    data-lucide="x"
+                                    class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    {% endif %}
+
+                {% endfor %}
+            {% endif %}
+            <!-- END: Alerts -->
+
+            <form ref="form" method="POST">
+                {% csrf_token %}
+                {{ form }}
+                <div class="btn-group">
+                    <button class="btn btn-danger w-32 mr-2 mb-2" type="submit"><i data-lucide="trash"
+                                                                      class="w-4 h-4 mr-2"></i>
+                        Apagar
+                    </button>
+
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <div class="intro-y box mt-5">
+
+        <div id="link-tab" class="p-5">
+            <div class="preview">
+                <ul class="nav nav-link-tabs" role="tablist">
+                    <li id="example-5-tab" class="nav-item flex-1" role="presentation">
+                        <button class="nav-link w-full py-2 active" data-tw-toggle="pill"
+                                data-tw-target="#tab-message" type="button" role="tab"
+                                aria-controls="tab-message"
+                                aria-selected="true"> Mensagem
+                        </button>
+                    </li>
+                    {% if object.attach_1 or object.attach_2 or object.attach_3 or object.attach_4 %}
+
+                        <li id="example-6-tab" class="nav-item flex-1" role="presentation">
+                            <button class="nav-link w-full py-2" data-tw-toggle="pill" data-tw-target="#tab-attach"
+                                    type="button" role="tab" aria-controls="tab-attach" aria-selected="false">
+                                Anexos
+                            </button>
+                        </li>
+                    {% endif %}
+                </ul>
+                <div class="tab-content mt-5">
+                    <div id="tab-message" class="tab-pane leading-relaxed active" role="tabpanel"
+                         aria-labelledby="example-5-tab">
+                        <div class="form-group">
+                            <label>Assunto:</label>
+                            {% if object.subject %}
+                                <input type="text" class="form-control" value="{{ object.subject }}"
+                                       placeholder="-" readonly>
+                            {% else %}
+                                <input type="text" class="form-control" placeholder="-" readonly>
+                            {% endif %}
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label>Mensagem:</label>
+                            {% if object.content %}
+                                <div class="bs-callout bs-callout-primary">
+                                    {{ object.content|safe }}
+                                </div>
+                            {% else %}
+                                <input type="text" class="form-control" placeholder="-" readonly>
+                            {% endif %}
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label>Data Envio:</label>
+                            {% if object.updated_at %}
+                                <input type="text" class="form-control"
+                                       value="{{ object.updated_at|date:'d/m/Y H:i' }}"
+                                       placeholder="-" readonly>
+                            {% else %}
+                                <input type="text" class="form-control"
+                                       placeholder="-" readonly>
+                            {% endif %}
+                        </div>
+
+                    </div>
+                    {% if object.attach_1 or object.attach_2 or object.attach_3 or object.attach_4 %}
+                        <div id="tab-attach" class="tab-pane leading-relaxed" role="tabpanel"
+                             aria-labelledby="tab-attach">
+                            {% if object.attach_1 %}
+                                <div class="m-2">
+                                    <a target="_blank" href="/media/{{ object.attach_1 }}"><img
+                                            height="42"
+                                            class="wd-60 mb-2"
+                                            src="{% static 'custom_images/icons/icon_attachment.png' %}"></a>
+                                    <h6 class="mb-3 mb-lg-0 text-center">Anexo 01</h6>
+                                </div>
+                            {% endif %}
+
+                            {% if object.attach_2 %}
+                                <br>
+                                <div class="m-2">
+                                    <a target="_blank" href="/media/{{ object.attach_2 }}"><img
+                                            height="42"
+                                            class="wd-40 mb-2"
+                                            src="{% static 'assets/img/icons/icon_attachment red_10379.png' %}"></a>
+                                    <h6 class="mb-3 mb-lg-0 text-center">Anexo 02</h6>
+                                </div>
+                            {% endif %}
+
+                            {% if object.attach_3 %}
+                                <br>
+                                <div class="m-2">
+                                    <a target="_blank" href="/media/{{ object.attach_3 }}"><img
+                                            height="42"
+                                            class="wd-0 mb-2"
+                                            src="{% static 'assets/img/icons/icon_attachment red_10379.png' %}"></a>
+                                    <h6 class="mb-3 mb-lg-0 text-center">Anexo 03</h6>
+                                </div>
+                            {% endif %}
+
+                            {% if object.attach_4 %}
+                                <br>
+                                <div class="m-2">
+                                    <a target="_blank" href="/media/{{ object.attach_4 }}"><img
+                                            height="42"
+                                            class="wd-40 mb-2"
+                                            src="{% static 'assets/img/icons/icon_attachment red_10379.png' %}"></a>
+                                    <h6 class="mb-3 mb-lg-0 text-center">Anexo 04</h6>
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END: Basic Tab -->
+    </div>
+
+{% endblock %}
+
+            

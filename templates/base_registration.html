@@ -1,0 +1,109 @@
+
+<!DOCTYPE html>
+<html lang="pt" class="light">
+{% load static %}
+<!-- BEGIN: Head -->
+<head>
+    {% include 'meta.html' %}
+    <link href="{% static 'dist/images/logo.svg' %}" rel="shortcut icon">
+    <!-- BEGIN: CSS Assets-->
+    <link rel="stylesheet" href="{% static 'dist/css/app.css' %}"/>
+    <!-- END: CSS Assets-->
+
+    <!-- BEGIN: VueJS -->
+    <script src="{% static 'third_party/vuejs/vue.min.js' %}"></script>
+    <!-- END: VueJS -->
+
+    <!-- MyScrollbar -->
+    <style>
+        .myScrollbar {
+            height: 580px;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+    </style>
+    <!-- ./MyScrollbar -->
+
+</head>
+<!-- END: Head -->
+<body class="login">
+<div class="container sm:px-10">
+    <div class="block xl:grid grid-cols-2 gap-4">
+        <!-- BEGIN: Login Info -->
+        <div class="hidden xl:flex flex-col min-h-screen">
+            <a href="{% url 'login' %}" class="-intro-x flex items-center pt-5">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                 class="lucide lucide-vote">
+                <path stroke="white" d="m9 12 2 2 4-4"/>
+                <path stroke="white"d="M5 7c0-1.1.9-2 2-2h10a2 2 0 0 1 2 2v12H5V7Z"/>
+                <path stroke="white" d="M22 19H2"/>
+            </svg>
+                <span class="text-white text-lg ml-3"> SafeInstruments </span>
+            </a>
+            <div class="my-auto">
+                <img class="-intro-x w-1/2 -mt-16" src="{% static 'dist/images/illustration.png' %}">
+                <div class="-intro-x text-white font-medium text-4xl leading-tight mt-10">
+                    Mais alguns cliques para
+                    <br>
+                    fazer login em sua conta.
+                </div>
+                <div class="-intro-x mt-4 text-lg text-white text-opacity-70 dark:text-slate-400">
+                    Gerencie facilmente a localização e segurança 
+                    <br>
+                    dos instrumentos hospitalares.
+                </div>
+            </div>
+        </div>
+        <!-- END: Login Info -->
+        <!-- BEGIN: Login Form -->
+        <div class="h-screen xl:h-auto flex py-5 xl:py-0 my-10 xl:my-0">
+            {% block content %}
+            {% endblock %}
+        </div>
+        <!-- END: Login Form -->
+    </div>
+</div>
+
+
+<!-- Autoclose Alert -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const alertElement = document.getElementById('alert');
+  const closeBtn = document.getElementById('closeBtn');
+
+  if (alertElement) {
+    setTimeout(function() {
+      alertElement.classList.add('hidden');
+    }, 5000);  // Set the time in milliseconds (5 seconds in this example)
+
+    closeBtn.addEventListener('click', function() {
+      alertElement.classList.add('hidden');
+    });
+  }
+});
+
+</script>
+<!-- ./Autoclose Alert -->
+
+<!-- BEGIN: JS Assets-->
+<script src="{% static 'dist/js/app.js' %}"></script>
+<!-- END: JS Assets-->
+
+<!-- Jquery -->
+<script src="{% static 'third_party/jquery/jquery-3.6.4.min.js' %}"></script>
+<!-- ./Jquery -->
+
+<!-- BEGIN: JS Mask-->
+<script src="https://cdn.jsdelivr.net/npm/inputmask"></script>
+<script src="{% static 'third_party/tailwind_mask/tailwind_mask.js' %}"></script>
+<!-- END: JS Mask-->
+
+<!-- VueJS - CODE -->
+<script src="{% static 'third_party/vuejs/btn_wait.js' %}"></script>
+<!-- ./VueJS - CODE -->
+
+
+</body>
+</html>
+            

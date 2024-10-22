@@ -1,0 +1,22 @@
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="grid grid-cols-12 gap-6 mt-8">
+        <div class="col-span-12 lg:col-span-3 2xl:col-span-2">
+            <h2 class="intro-y text-lg font-medium mr-auto mt-2">
+                Área Restrita
+            </h2>
+        </div>
+    </div>
+    <!-- BEGIN: Access Denied Content -->
+    <div class="container" style="margin: auto; width: 50%; padding: 10px;">
+        <img src="{% static 'assets/icons/icon_access_denied.png' %}">
+    </div>
+    <!-- END: Access Denied Content -->
+
+    <script src="{% static 'third_party/vuejs/btn_wait.js' %}"></script>
+
+{% endblock %}
+            

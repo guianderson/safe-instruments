@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div>
+        <div class="intro-y flex items-center mt-8">
+            <h2 class="text-lg font-medium mr-auto">
+                Perfil
+            </h2>
+        </div>
+        <div class="grid grid-cols-12 gap-6 mt-5">
+            <!-- BEGIN: Profile Menu -->
+            <div class="col-span-12 lg:col-span-4 2xl:col-span-3 flex lg:block flex-col-reverse">
+                <div class="intro-y box mt-5 lg:mt-0">
+                    <div class="relative flex items-center p-5">
+                        <div class="w-12 h-12 image-fit">
+                            {% if request.user.avatar %}
+                                <img class="rounded-full" src="/media/{{ request.user.avatar }}">
+                            {% else %}
+                                <img class="rounded-full" src="{% static 'assets/icons/icon_anonymous.png' %}">
+                            {% endif %}
+                        </div>
+                        <div class="ml-4 mr-auto">
+                            <div class="font-medium text-base">{{ request.user.first_name }} {{ request.user.last_name }}</div>
+                            <div class="text-slate-500">{{ request.user.groups.all.0 }}</div>
+                        </div>
+                    </div>
+                    <div class="p-5 border-t border-slate-200/60 dark:border-darkmode-400">
+                        <a class="flex items-center text-primary font-medium" href=""> <i data-lucide="contact"
+                                                                                          class="w-4 h-4 mr-2"></i>
+                            Informações de Contato
+                        </a>
+                        <a class="flex items-center mt-5" href=""> <i data-lucide="map-pin"
+                                                                      class="w-4 h-4 mr-2"></i> 
+                                                                      {% if request.user.agency %}
+                                                                      {{ request.user.agency }}
+                                                                      {% else %}
+                                                                      -
+                                                                      {% endif%}
+                        </a>
+                        <a class="flex items-center mt-5" href=""> <i data-lucide="phone"
+                                                                      class="w-4 h-4 mr-2"></i> 
+                                                                      {% if request.user.phone %} 
+                                                                      {{ request.user.phone }}
+                                                                      {% else %}
+                                                                      -
+                                                                      {% endif %}
+                        </a>
+                        <a class="flex items-center mt-5" href=""> <i data-lucide="smartphone"
+                                                                      class="w-4 h-4 mr-2"></i> 
+                                                                      {% if request.user.mobile %}
+                                                                      {{ request.user.mobile }}
+                                                                      {% else %}
+                                                                      -
+                                                                      {% endif %}
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+            <!-- END: Profile Menu -->
+            <div id="app" class="col-span-12 lg:col-span-8 2xl:col-span-9">
+                <div class="grid grid-cols-12 gap-6">
+                    <!-- BEGIN: Information Profile -->
+                    <div class="intro-y box col-span-12 2xl:col-span-6">
+                        <div class="flex items-center px-5 py-5 sm:py-3 border-b border-slate-200/60 dark:border-darkmode-400">
+                            <h2 class="font-medium text-base mr-auto">
+                                Informações do Perfil
+                            </h2>
+                        </div>
+                        <div class="p-5">
+                            <!-- BEGIN: Alerts -->
+                            {% if messages %}
+                                {% for message in messages %}
+                                    {% if message.tags == 'alert-danger' %}
+                                        <div id="alert" class="alert alert-danger alert-dismissible show flex items-center mb-2"
+                                             role="alert"><i
+                                                data-lucide="alert-octagon" class="w-6 h-6 mr-2"></i>
+                                            {{ message }}
+                                            <button type="button" class="btn-close text-white" data-tw-dismiss="alert"
+                                                    aria-label="Close"><i
+                                                    data-lucide="x" class="w-4 h-4"></i></button>
+                                        </div>
+                                    {% endif %}
+
+                                    {% if message.tags == 'alert-success' %}
+                                        <div id="alert" class="alert alert-primary alert-dismissible show flex items-center mb-2"
+                                             role="alert"><i data-lucide="check-circle" class="w-6 h-6 mr-2"></i>
+                                            {{ message }}
+                                            <button type="button" class="btn-close text-white" data-tw-dismiss="alert"
+                                                    aria-label="Close"><i data-lucide="x" class="w-4 h-4"></i></button>
+                                        </div>
+                                    {% endif %}
+
+                                    {% if message.tags == 'alert-warning' %}
+                                        <div id="alert" class="alert alert-warning alert-dismissible show flex items-center mb-2"
+                                             role="alert"><i
+                                                data-lucide="alert-circle" class="w-6 h-6 mr-2"></i>
+                                            {{ message }}
+                                            <button type="button" class="btn-close" data-tw-dismiss="alert"
+                                                    aria-label="Close"><i
+                                                    data-lucide="x"
+                                                    class="w-4 h-4"></i>
+                                            </button>
+                                        </div>
+                                    {% endif %}
+
+                                {% endfor %}
+                            {% endif %}
+                            <!-- END: Alerts -->
+                            <form ref="form" method="POST" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                {{ form.media }}
+                                {% for field in form %}
+                                    <div class="fieldWrapper">
+                                        {{ field.label_tag }} {{ field }}
+                                        {% if field.help_text %}
+                                            <p class="help">{{ field.help_text|safe }}</p>
+                                        {% endif %}
+                                        {% if field.errors %}
+                                        <strong class="text-danger">* {{ field.errors }}</strong>
+                                        {% endif %}
+                                    </div>
+                                    <br>
+                                {% endfor %}
+
+                                <div style="text-align: center">
+
+
+                                    <div class="btn-group">
+
+
+                                        <button class="btn btn-primary w-32 mr-2 mb-2" type="submit"><i data-lucide="check"
+                                                                                          class="w-4 h-4 mr-2"></i>
+                                            Confirmar
+                                        </button>
+
+
+                                    </div>
+                                </div>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+                    <!-- END: Information Profile -->
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+            

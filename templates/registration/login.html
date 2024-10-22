@@ -1,0 +1,82 @@
+{% extends 'base_registration.html' %}
+{% block content %}
+    <div class="my-auto mx-auto xl:ml-20 bg-white dark:bg-darkmode-600 xl:bg-transparent px-5 sm:px-8 py-8 xl:p-0 rounded-md shadow-md xl:shadow-none w-full sm:w-3/4 lg:w-2/4 xl:w-auto">
+        <h2 class="intro-x font-bold text-2xl xl:text-3xl text-center xl:text-left">
+            Autenticação
+        </h2>
+        <div class="intro-x mt-2 text-slate-400 xl:hidden text-center">
+            Mais alguns cliques para fazer login em sua conta.
+        </div>
+        <div class="intro-x mt-8">
+            <!-- BEGIN: Alerts -->
+            {% if form.errors %}
+                <div id="alert" class="alert alert-danger alert-dismissible show flex items-center mb-2" role="alert"><i
+                        data-lucide="alert-octagon" class="w-6 h-6 mr-2"></i>
+                    Acesso Negado! E-mail e senha não coincidem ou sua conta pode estar inativa.
+
+                    <button type="button" class="btn-close text-white" data-tw-dismiss="alert" aria-label="Close"><i
+                            data-lucide="x" class="w-4 h-4"></i></button>
+                </div>
+            {% endif %}
+            <!-- END: Alerts -->
+
+            <div id="app">
+                <form ref="form" id="login-form" method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label>E-mail</label>
+                        <input id="id_username" name="username" type="email"
+                               class="intro-x login__input form-control py-3 px-4 block mt-4"
+                               placeholder="Digite o E-mail"
+                               maxlength="60"
+                               onblur="clearTimeout()">
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label>Senha</label> <input class="intro-x login__input form-control py-3 px-4 block mt-4"
+                                                    id="id_password" name="password"
+                                                    placeholder="Digite sua senha"
+                                                    type="password" required="true">
+                    </div>
+                    <br>
+                    <div style="text-align: center">
+                        <div class="btn-group">
+                            <button v-if="!clicked" v-on:click="userClicked"
+                                    class="btn btn-primary py-3 px-4 w-full xl:w-34 xl:mr-3 align-top" type="submit">
+                                Entrar
+                            </button>
+                            <button v-if="clicked" v-on:click="userClicked"
+                                    class="btn btn-primary py-3 px-4 w-full xl:w-34 xl:mr-3 align-top">
+                                <svg width="25" viewBox="-2 -2 42 42" xmlns="http://www.w3.org/2000/svg" stroke="white"
+                                     class="w-4 h-4 ml-2">
+                                    <g fill="none" fill-rule="evenodd">
+                                        <g transform="translate(1 1)" stroke-width="4">
+                                            <circle stroke-opacity=".5" cx="18" cy="18" r="18"></circle>
+                                            <path d="M36 18c0-9.94-8.06-18-18-18">
+                                                <animateTransform attributeName="transform" type="rotate" from="0 18 18"
+                                                                  to="360 18 18" dur="1s"
+                                                                  repeatCount="indefinite"></animateTransform>
+                                            </path>
+                                        </g>
+                                    </g>
+                                </svg>
+                                &nbsp; Aguarde...
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                <div class="intro-x flex text-slate-600 dark:text-slate-500 text-xs sm:text-sm mt-4">
+                    <p><a href="{% url 'password_reset' %}">Esqueceu a Senha?</a></p>
+                </div>
+                <div class="intro-x flex text-slate-600 dark:text-slate-500 text-xs sm:text-sm mt-4">
+                    <p>Ainda não possui uma conta? <a href="{% url 'signup' %}">Criar uma Conta.</a></p>
+                </div>
+            </div>
+
+
+        </div>
+
+
+    </div>
+{% endblock %}
+            

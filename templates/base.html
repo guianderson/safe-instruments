@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="pt" class="light">
+{% load static %}
+<!-- BEGIN: Head -->
+<head>
+    <!-- BEGIN: Meta-->
+    {% include 'meta.html' %}
+    <!-- END: Meta-->
+    <link href="{% static 'dist/images/logo.svg' %}" rel="shortcut icon">
+    <!-- BEGIN: CSS Assets-->
+    <link rel="stylesheet" href="{% static 'dist/css/app.css' %}"/>
+    <!-- END: CSS Assets-->
+    <!-- BEGIN: CSS CallOut -->
+    <link rel="stylesheet" href="{% static 'third_party/callout/callout.css' %}"/>
+    <!-- END: CSS CallOut -->
+    <!-- VueJS - CODE -->
+    <script src="{% static 'third_party/vuejs/vue.min.js' %}"></script>
+    <!-- ./VueJS - CODE -->
+</head>
+<!-- END: Head -->
+<body class="py-5 md:py-0">
+
+<!-- BEGIN: Mobile Menu -->
+<div class="mobile-menu md:hidden">
+    <div class="mobile-menu-bar">
+        <a href="{% url 'home' %}" class="flex mr-auto">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                 stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                 class="lucide lucide-layers">
+                <path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/>
+                <path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/>
+                <path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/>
+            </svg>
+            <span class="logo__text text-white text-lg ml-3"> SafeInstruments </span>
+        </a>
+        <a href="javascript:;" class="mobile-menu-toggler">
+            <i data-lucide="bar-chart-2" class="w-8 h-8 text-white transform -rotate-90"></i>
+        </a>
+    </div>
+    <div class="scrollable">
+        <a href="javascript:;" class="mobile-menu-toggler">
+            <i data-lucide="vote" class="w-8 h-8 text-white transform -rotate-90"></i>
+        </a>
+        <ul class="scrollable__content py-2">
+            <!-- BEGIN: Menu Mobile Apps -->
+
+            <li>
+                <a href="{% url 'home' %}" class="menu">
+                    <div class="menu__icon"><i data-lucide="home"></i></div>
+                    <div class="menu__title"> Início</div>
+                </a>
+            </li>
+
+            <!-- END: Menu Mobile Apps -->
+
+
+        </ul>
+    </div>
+</div>
+<!-- END: Mobile Menu -->
+
+<!-- BEGIN: Top Bar -->
+<div class="top-bar-boxed h-[70px] md:h-[65px] z-[51] border-b border-white/[0.08] mt-12 md:mt-0 -mx-3 sm:-mx-8 md:-mx-0 px-3 md:border-b-0 relative md:fixed md:inset-x-0 md:top-0 sm:px-8 md:px-10 md:pt-10 md:bg-gradient-to-b md:from-slate-100 md:to-transparent dark:md:from-darkmode-700">
+    <div class="h-full flex items-center">
+        <!-- BEGIN: Logo -->
+        <a href="{% url 'home' %}" class="logo -intro-x hidden md:flex xl:w-[180px] block text-white">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                 class="lucide lucide-layers">
+                <path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/>
+                <path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/>
+                <path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/>
+            </svg>
+            <span class="logo__text text-white text-lg ml-3"> SafeInstruments </span>
+
+        </a>
+        <!-- END: Logo -->
+
+        <!-- BEGIN: Breadcrumb -->
+        <nav aria-label="breadcrumb" class="-intro-x h-[45px] mr-auto">
+            <ol class="breadcrumb breadcrumb-light">
+                <li class="breadcrumb-item"><a href="#">{{ breadcumb_app }}</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ breadcumb_module }}</li>
+            </ol>
+        </nav>
+        <!-- END: Breadcrumb -->
+    
+        <!-- BEGIN: Notifications -->
+        <div class="intro-x dropdown mr-auto sm:mr-6">
+            <div class="dropdown-toggle notification notification--bullet cursor-pointer" role="button"
+                 aria-expanded="false" data-tw-toggle="dropdown"><i data-lucide="bell"
+                                                                    class="notification__icon dark:text-slate-500"></i>
+            </div>
+            <div class="notification-content pt-2 dropdown-menu">
+                <div class="notification-content__box dropdown-content">
+                    <div class="notification-content__title">Notificações</div>
+                    <div class="cursor-pointer relative flex items-center ">
+                        <div class="w-12 h-12 flex-none image-fit mr-1">
+                            <img class="rounded-full"
+                                 src="{% static 'assets/icons/icon_robot.png' %}">
+                            <div class="w-3 h-3 bg-success absolute right-0 bottom-0 rounded-full border-2 border-white dark:border-darkmode-600"></div>
+                        </div>
+                        {% for notification in notifications %}
+
+                        <div class="ml-2 overflow-hidden">
+                            <div class="flex items-center">
+                                <a href="javascript:;" class="font-medium truncate mr-5">Robot</a>
+                                <div class="text-xs text-slate-400 ml-auto whitespace-nowrap">{{
+                                    notification.updated_at|date:'d/m/Y H:i' }}
+                                </div>
+                            </div>
+                            <div class="w-full truncate text-slate-500 mt-0.5"> {{ notification.message }}
+                            </div>
+                        </div>
+
+                        {% empty %}
+
+                        <div class="ml-2 overflow-hidden">
+                            <div class="flex items-center">
+                                <a href="javascript:;" class="font-medium truncate mr-5">Robot</a>
+                                <div class="text-xs text-slate-400 ml-auto whitespace-nowrap">Agora</div>
+                            </div>
+                            <div class="w-full truncate text-slate-500 mt-0.5"> Não existem notificações.
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END: Notifications -->
+
+        <!-- BEGIN: Account Menu -->
+        <div class="intro-x dropdown w-8 h-8">
+            <div class="dropdown-toggle w-8 h-8 rounded-full overflow-hidden shadow-lg image-fit zoom-in scale-110"
+                 role="button" aria-expanded="false" data-tw-toggle="dropdown">
+                {% if request.user.avatar %}
+                <img src="/media/{{ request.user.avatar }}">
+                {% else %}
+                <img src="{% static 'assets/icons/icon_anonymous.png' %}">
+                {% endif %}
+            </div>
+            <div class="dropdown-menu w-56">
+                <ul class="dropdown-content bg-primary/80 before:block before:absolute before:bg-black before:inset-0 before:rounded-md before:z-[-1] text-white">
+                    <li class="p-2">
+                        <div class="font-medium">{{ request.user.first_name }} {{ request.user.last_name }}</div>
+                        <div class="text-xs text-white/60 mt-0.5 dark:text-slate-500">{{ request.user.groups.all.0 }}
+                        </div>
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider border-white/[0.08]">
+                    </li>
+                    <li>
+                        <a href="{% url 'update_profile' %}" class="dropdown-item hover:bg-white/5"> <i
+                                data-lucide="user"
+                                class="w-4 h-4 mr-2"></i> Perfil </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'update_password' %}" class="dropdown-item hover:bg-white/5"> <i
+                                data-lucide="lock"
+                                class="w-4 h-4 mr-2"></i> Alterar Senha
+                        </a>
+                    </li>
+                    {% if request.user.is_staff %}
+                    <li>
+                        <a href="{% url 'admin:index' %}" class="dropdown-item hover:bg-white/5" target="_blank"> <i
+                                data-lucide="settings"
+                                class="w-4 h-4 mr-2"></i>
+                            Administrador </a>
+                    </li>
+                    {% endif %}
+                    <li>
+                        <hr class="dropdown-divider border-white/[0.08]">
+                    </li>
+                    <li>
+                        <a href="{% url 'logout' %}" class="dropdown-item hover:bg-white/5"> <i
+                                data-lucide="toggle-right"
+                                class="w-4 h-4 mr-2"></i> Sair </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- END: Account Menu -->
+
+    </div>
+</div>
+<!-- END: Top Bar -->
+
+<div class="flex overflow-hidden">
+    <!-- BEGIN: Side Menu -->
+    <nav class="side-nav">
+        <ul>
+            <li>
+                <a href="{% url 'home' %}" class="side-menu {{ active_menu_home }}">
+                    <div class="side-menu__icon"><i data-lucide="home"></i></div>
+                    <div class="side-menu__title"> Início</div>
+                </a>
+            </li>
+            {% if request.user.is_staff %}
+
+            <li>
+                <a href="{% url 'message_private:list' %}" class="side-menu {{ active_menu_message }}">
+                    <div class="side-menu__icon"><i data-lucide="inbox"></i></div>
+                    <div class="side-menu__title"> Caixa de Entrada &nbsp;<span
+                            class="text-xs px-1 rounded-full bg-danger text-white mr-1">{{ count_private_messages }}</span>
+                    </div>
+
+                </a>
+            </li>
+
+            <div class="side-nav__devider my-6"><small class="text-gray-600">Gestor</small></div>
+
+            <li>
+                <a href="javascript:;" class="side-menu {{ active_menu_app_instrument }}">
+                    <div class="side-menu__icon"><i data-lucide="wrap-text"></i></div>
+                    <div class="side-menu__title">
+                        Instrumentos
+                        <div class="side-menu__sub-icon"><i data-lucide="chevron-down"></i></div>
+                    </div>
+                </a>
+                <ul class="">
+                    <li>
+                        <a href="{% url 'app_instrument:list' %}" class="side-menu">
+                            <div class="side-menu__icon"><i data-lucide="corner-down-right"></i></div>
+                            <div class="side-menu__title"> Gerenciar Instrumentos</div>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            {% endif %}
+
+            <!-- END: Menu Apps -->
+
+        </ul>
+    </nav>
+    <!-- END: Side Menu -->
+
+    <!-- BEGIN: Content -->
+    <div class="content">
+
+        {% block content %}
+        {% endblock %}
+
+        <!-- BEGIN: Footer -->
+        {% include 'footer.html' %}
+        <!-- END: Footer -->
+    </div>
+    <!-- END: Content -->
+
+
+</div>
+
+
+<!-- Autoclose Alert -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const alertElement = document.getElementById('alert');
+        const closeBtn = document.getElementById('closeBtn');
+
+        if (alertElement) {
+            setTimeout(function () {
+                alertElement.classList.add('hidden');
+            }, 5000);  // Set the time in milliseconds (5 seconds in this example)
+
+            closeBtn.addEventListener('click', function () {
+                alertElement.classList.add('hidden');
+            });
+        }
+    });
+
+</script>
+<!-- ./Autoclose Alert -->
+
+<!-- Jquery -->
+<script src="{% static 'third_party/jquery/jquery-3.6.4.min.js' %}"></script>
+<!-- ./Jquery -->
+
+<!-- BEGIN: JS Mask-->
+<script src="https://cdn.jsdelivr.net/npm/inputmask"></script>
+<script src="{% static 'third_party/tailwind_mask/tailwind_mask.js' %}"></script>
+<!-- END: JS Mask-->
+
+<!-- BEGIN: JS CheckAll Table-->
+<script src="{% static 'third_party/tailwind_checkall/index.min.js' %}"></script>
+<!-- END: JS CheckAll Table-->
+
+<!-- BEGIN: JS Assets-->
+<script src="{% static 'dist/js/app.js' %}"></script>
+<!-- END: JS Assets-->
+
+</body>
+</html>

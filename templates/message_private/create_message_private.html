@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="intro-y flex flex-col sm:flex-row items-center mt-8">
+        <h2 class="text-lg font-medium mr-auto">
+            Escrever
+        </h2>
+    </div>
+
+    <form id="MessageForm" ref="form" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.media }}
+        <div id="app" class="intro-y box mt-5">
+            <div class="flex flex-col sm:flex-row items-center p-5 border-b border-slate-200/60 dark:border-darkmode-400">
+                <h2 class="font-medium text-base mr-auto">
+                    Escrever Mensagem
+                </h2>
+                <div class="w-full sm:w-auto sm:ml-auto mt-3 sm:mt-0">
+                    <div class="btn-group">
+
+
+                        <button class="btn btn-primary w-32 mr-2 mb-2" type="submit"><i data-lucide="send"
+                                                                          class="w-4 h-4 mr-2"></i>
+                            Enviar
+                        </button>
+
+
+                    </div>
+                </div>
+            </div>
+            <div id="link-tab" class="p-5">
+                <div class="preview">
+                    <ul class="nav nav-link-tabs" role="tablist">
+                        <li id="example-5-tab" class="nav-item flex-1" role="presentation">
+                            <button class="nav-link w-full py-2 active" data-tw-toggle="pill"
+                                    data-tw-target="#tab-message" type="button" role="tab"
+                                    aria-controls="tab-message"
+                                    aria-selected="true"> Mensagem
+                            </button>
+                        </li>
+                        <li id="example-6-tab" class="nav-item flex-1" role="presentation">
+                            <button class="nav-link w-full py-2" data-tw-toggle="pill" data-tw-target="#tab-attach"
+                                    type="button" role="tab" aria-controls="tab-attach" aria-selected="false">
+                                Anexos
+                            </button>
+                        </li>
+                    </ul>
+                    <div class="tab-content mt-5">
+                        <div id="tab-message" class="tab-pane leading-relaxed active" role="tabpanel"
+                             aria-labelledby="example-5-tab">
+                            {{ form.non_field_errors }}
+                            <div class="fieldWrapper">
+                                <label for="{{ form.recipient_message.id_for_label }}">{{ form.recipient_message.label_tag }}</label>
+                                {{ form.recipient_message }}
+                                {% if form.recipient_message.errors %}
+                                    {% for error in form.recipient_message.errors %}
+                                        <p><small
+                                                class="text-danger"><strong>{{ error|escape }}</strong></small>
+                                        </p>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                            <br>
+                            <div class="fieldWrapper">
+                                <label for="{{ form.subject.id_for_label }}">{{ form.subject.label_tag }}</label>
+                                {{ form.subject }}
+                                {% if form.subject.errors %}
+                                    {% for error in form.subject.errors %}
+                                        <p><small
+                                                class="text-danger"><strong>{{ error|escape }}</strong></small>
+                                        </p>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                            <br>
+                            <label for="{{ form.content.id_for_label }}">{{ form.content.label_tag }}</label>
+                            <div class="fieldWrapper">
+                                {{ form.content }}
+                                {% if form.content.errors %}
+                                    {% for error in form.content.errors %}
+                                        <p><small
+                                                class="text-danger"><strong>{{ error|escape }}</strong></small>
+                                        </p>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div id="tab-attach" class="tab-pane leading-relaxed" role="tabpanel"
+                             aria-labelledby="example-6-tab">
+                            <br>
+                            <div class="fieldWrapper">
+                                <label for="{{ form.attach_1.id_for_label }}">{{ form.attach_1.label_tag }}</label>
+                                {{ form.attach_1 }}
+                                {% if form.attach_1.errors %}
+                                    {% for error in form.attach_1.errors %}
+                                        <p><small
+                                                class="text-danger"><strong>{{ error|escape }}</strong></small>
+                                        </p>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                            <br>
+                            <div class="fieldWrapper">
+                                <label for="{{ form.attach_2.id_for_label }}">{{ form.attach_2.label_tag }}</label>
+                                {{ form.attach_2 }}
+                                {% if form.attach_2.errors %}
+                                    {% for error in form.attach_2.errors %}
+                                        <p><small
+                                                class="text-danger"><strong>{{ error|escape }}</strong></small>
+                                        </p>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                            <br>
+                            <div class="fieldWrapper">
+                                <label for="{{ form.attach_3.id_for_label }}">{{ form.attach_3.label_tag }}</label>
+                                {{ form.attach_3 }}
+                                {% if form.attach_3.errors %}
+                                    {% for error in form.attach_3.errors %}
+                                        <p><small
+                                                class="text-danger"><strong>{{ error|escape }}</strong></small>
+                                        </p>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                            <br>
+                            <div class="fieldWrapper">
+                                <label for="{{ form.attach_4.id_for_label }}">{{ form.attach_4.label_tag }}</label>
+                                {{ form.attach_4 }}
+                                {% if form.attach_4.errors %}
+                                    {% for error in form.attach_4.errors %}
+                                        <p><small
+                                                class="text-danger"><strong>{{ error|escape }}</strong></small>
+                                        </p>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <!-- END: Basic Tab -->
+    </div>
+{% endblock %}
+
+            

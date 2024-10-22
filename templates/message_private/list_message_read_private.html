@@ -1,0 +1,220 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="grid grid-cols-12 gap-6 mt-8">
+        <div class="col-span-12 lg:col-span-3 2xl:col-span-2">
+            <h2 class="intro-y text-lg font-medium mr-auto mt-2">
+                Lidas
+            </h2>
+            <!-- BEGIN: Inbox Menu -->
+            <div class="intro-y box bg-primary p-5 mt-6">
+                <a href="{% url 'message_private:create' %}"
+                   class="btn text-slate-600 dark:text-slate-300 w-full bg-white dark:bg-darkmode-300 dark:border-darkmode-300 mt-1">
+                    <i class="w-4 h-4 mr-2" data-lucide="edit-3"></i> Escrever
+                </a>
+                <div class="border-t border-white/10 dark:border-darkmode-400 mt-6 pt-6 text-white">
+                    <a href="{% url 'message_private:list' %}"
+                       class="flex items-center px-3 py-2 mt-2 rounded-md"> <i
+                            class="w-4 h-4 mr-2" data-lucide="mail"></i> Caixa de Entrada &nbsp;
+                        <strong>({{ count_new_message }})</strong></a>
+
+                    <a href="{% url 'message_private:list_read' %}"
+                       class="flex items-center px-3 py-2 rounded-md bg-white/10 dark:bg-darkmode-700 font-medium">
+                        <i class="w-4 h-4 mr-2"
+                           data-lucide="inbox"></i> Lidas
+                        &nbsp; <strong>({{ count_read_message }})</strong>
+                    </a>
+                    <a href="{% url 'message_private:list_send' %}" class="flex items-center px-3 py-2 mt-2 rounded-md">
+                        <i class="w-4 h-4 mr-2"
+                           data-lucide="send"></i> Enviadas
+                        &nbsp; <strong>({{ count_send_message }})</strong>
+                    </a>
+                    <a href="{% url 'message_private:list_trash' %}"
+                       class="flex items-center px-3 py-2 mt-2 rounded-md"> <i class="w-4 h-4 mr-2"
+                                                                               data-lucide="trash"></i> Lixeira
+                        &nbsp;<strong>({{ count_trash_message }})</strong>
+                    </a>
+                </div>
+
+            </div>
+            <!-- END: Inbox Menu -->
+        </div>
+          <!-- BEGIN: Inbox Filter -->
+        <div class="col-span-12 lg:col-span-9 2xl:col-span-10">
+            <form ref="form" class="form-search" method="GET">
+                <div class="intro-y flex flex-col-reverse sm:flex-row items-center">
+                    <div class="sm:w-auto mt-3 sm:mt-0">
+                        <i class="w-4 h-4 absolute my-auto inset-y-0 ml-3 left-0 z-10 text-slate-500"
+                           data-lucide="search"></i>
+                        <input type="text" name="tf_search" class="form-control w-full sm:w-64 box px-10"
+                               placeholder="Pesquisar Mensagens">
+                    </div>
+                    <div class="w-full sm:w-auto relative mr-auto mt-3 sm:mt-0">
+                        <button class="btn btn-primary"><i data-lucide="search" class="w-5 h-5"></i></button>
+                    </div>
+                </div>
+            </form>
+            <!-- END: Inbox Filter -->
+
+            <!-- BEGIN: Alerts -->
+            <div>
+                {% if messages %}
+                    <br>
+                    {% for message in messages %}
+                        {% if message.tags == 'alert-danger' %}
+                            <div id="alert" class="alert alert-danger alert-dismissible show flex items-center mb-2"
+                                 role="alert"><i
+                                    data-lucide="alert-octagon" class="w-6 h-6 mr-2"></i>
+                                {{ message }}
+                                <button type="button" class="btn-close text-white" data-tw-dismiss="alert"
+                                        aria-label="Close"><i
+                                        data-lucide="x" class="w-4 h-4"></i></button>
+                            </div>
+                        {% endif %}
+
+                        {% if message.tags == 'alert-success' %}
+                            <div id="alert" class="alert alert-primary alert-dismissible show flex items-center mb-2"
+                                 role="alert"><i data-lucide="check-circle" class="w-6 h-6 mr-2"></i>
+                                {{ message }}
+                                <button type="button" class="btn-close text-white" data-tw-dismiss="alert"
+                                        aria-label="Close"><i data-lucide="x" class="w-4 h-4"></i></button>
+                            </div>
+                        {% endif %}
+
+                        {% if message.tags == 'alert-warning' %}
+                            <div id="alert" class="alert alert-warning alert-dismissible show flex items-center mb-2"
+                                 role="alert"><i
+                                    data-lucide="alert-circle" class="w-6 h-6 mr-2"></i>
+                                {{ message }}
+                                <button type="button" class="btn-close" data-tw-dismiss="alert"
+                                        aria-label="Close"><i
+                                        data-lucide="x"
+                                        class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                        {% endif %}
+
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <!-- END: Alerts -->
+
+            <!-- BEGIN: Inbox Content -->
+            <div class="intro-y inbox box mt-5">
+                <div class="overflow-x-auto sm:overflow-x-visible">
+                    {% for inter_message in object_list %}
+                        <div class="intro-y">
+                            <div class="inbox__item inbox__item--active inline-block sm:block text-slate-600 dark:text-slate-500 bg-slate-100 dark:bg-darkmode-400/70 border-b border-slate-200/60 dark:border-darkmode-400">
+                                <div class="flex px-5 py-3">
+                                    <div class="w-72 flex-none flex items-center mr-5">
+                                        {% if inter_message.attach_1 or inter_message.attach_2 or inter_message.attach_3 or inter_message.attach_4 %}
+                                            <i class="w-4 h-4" data-lucide="paperclip"></i>
+                                        {% endif %}
+
+                                        <a href="{% url 'message_private:detail' inter_message.pk %}"
+                                           class="w-5 h-5 flex-none ml-4 flex items-center justify-center text-slate-400 tooltip"
+                                           title="Ler Mensagem">
+                                            <i class="w-4 h-4 text-warning" data-lucide="mail"></i> </a>
+
+                                        <a href="{% url 'message_private:update_trash' inter_message.pk %}"
+                                           class="w-5 h-5 flex-none ml-2 flex items-center justify-center text-slate-400 tooltip"
+                                           title="Enviar para Lixeira">
+                                            <i class="w-4 h-4 text-danger" data-lucide="trash"></i>
+                                        </a>
+                                        <div class="w-6 h-6 flex-none image-fit relative ml-5">
+                                            {% if inter_message.avatar %}
+                                                <img class="rounded-full"
+                                                     src="/media/{{ inter_message.avatar }}">
+                                            {% else %}
+                                                <img class="rounded-full "
+                                                     src="{% static 'assets/icons/icon_anonymous.png' %}">
+                                            {% endif %}
+                                        </div>
+                                        <div class="inbox__item--sender truncate ml-3">
+                                            <a href="{% url 'message_private:detail' inter_message.pk %}">{{ inter_message.to_message.first_name }} {{ inter_message.to_message.last_name }}</a>
+
+                                        </div>
+                                    </div>
+                                    <div class="w-64 sm:w-auto truncate">
+                                        <strong><a
+                                                href="{% url 'message_private:detail' inter_message.pk %}">{{ inter_message.subject }}</a>
+                                        </strong>
+                                    </div>
+                                    <div class="inbox__item--time whitespace-nowrap ml-auto pl-10">
+                                        <a href="{% url 'message_private:detail' inter_message.pk %}">{{ inter_message.updated_at|date:'d/m/Y H:i' }}</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% empty %}
+                        <br>
+                        <span class="truncate ml-3">
+                            <strong>Informação: </strong>Nenhuma nova mensagem disponível.
+                        </span>
+                    {% endfor %}
+                </div>
+                <div class="p-5 flex flex-col sm:flex-row items-center text-center sm:text-left text-slate-500">
+                    <!-- BEGIN: Pagination -->
+                    <div class="intro-y col-span-12 flex flex-wrap sm:flex-row sm:flex-nowrap items-center">
+                        <nav class="w-full sm:w-auto sm:mr-auto">
+                            <ul class="pagination">
+                                {% if page_obj.has_previous %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page=1"> <i class="w-4 h-4"
+                                                                                data-lucide="chevrons-left"></i>
+                                        </a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link"
+                                           href="?{{ request.GET.urlencode }}&page={{ page_obj.previous_page_number }}">
+                                            <i
+                                                    class="w-4 h-4" data-lucide="chevron-left"></i> </a>
+                                    </li>
+                                {% endif %}
+
+                                {% for num in page_obj.paginator.page_range %}
+
+                                    {% if page_obj.number == num %}
+                                        <li class="page-item active"><a class="page-link" href="#">{{ num }}</a>
+                                        </li>
+                                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+
+                                        <li class="page-item"><a class="page-link"
+                                                                 href="?{{ request.GET.urlencode }}&page={{ num }}">{{ num }}</a>
+                                        </li>
+
+                                    {% endif %}
+
+                                {% endfor %}
+
+                                {% if page_obj.has_next %}
+                                    <li class="page-item">
+                                        <a class="page-link"
+                                           href="?{{ request.GET.urlencode }}&page={{ page_obj.next_page_number }}">
+                                            <i
+                                                    class="w-4 h-4" data-lucide="chevron-right"></i> </a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link"
+                                           href="?{{ request.GET.urlencode }}&page={{ page_obj.paginator.num_pages }}">
+                                            <i
+                                                    class="w-4 h-4" data-lucide="chevrons-right"></i> </a>
+                                    </li>
+                                {% endif %}
+
+                            </ul>
+                        </nav>
+                    </div>
+                    <!-- END: Pagination -->
+
+                </div>
+            </div>
+            <!-- END: Inbox Content -->
+        </div>
+        <!-- END: Inbox Filter -->
+       
+    </div>
+{% endblock %}
+
+            
