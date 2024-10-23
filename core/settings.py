@@ -175,7 +175,7 @@ USE_TZ = False
 # STATICFILES_DIRS = [BASE_DIR, 'static']
 
 STATIC_URL = '/static/'
-STATIC_ROOT = '/home/guianderson/safe-instruments/static'  # Diretório onde os arquivos estáticos coletados serão armazenados
+STATIC_ROOT = '/home/guianderson/safe-instruments/static/third_party/'
 STATICFILES_DIRS = [
     BASE_DIR / 'static',  # Diretórios adicionais onde o Django procurará por arquivos estáticos
 ]
