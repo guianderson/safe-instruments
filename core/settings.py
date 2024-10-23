@@ -110,10 +110,10 @@ WSGI_APPLICATION = 'core.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'mysql.connector.django',
-        'NAME': config('DB_NAME'),
-        'USER': config('DB_USER'),
-        'PASSWORD': config('DB_PASS'),
-        'HOST': config('DB_HOST'),
+        'NAME': 'santa_casa',
+        'USER': 'guianderson',
+        'PASSWORD': 'gui145ibm',
+        'HOST': 'guianderson.mysql.pythonanywhere-services.com',
         # Or an IP Address that your DB is hosted on
         'PORT': '3306',
         'OPTIONS': {
@@ -182,11 +182,11 @@ LOGOUT_REDIRECT_URL = '/'
 
 # Send email
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = config('EMAIL_HOST')
-EMAIL_USE_TLS = config('EMAIL_TLS')
-EMAIL_PORT = config('EMAIL_PORT')
-EMAIL_HOST_USER = config('EMAIL_USER')
-EMAIL_HOST_PASSWORD = config('EMAIL_PASSWORD')
+# EMAIL_HOST = config('EMAIL_HOST')
+# EMAIL_USE_TLS = config('EMAIL_TLS')
+# EMAIL_PORT = config('EMAIL_PORT')
+# EMAIL_HOST_USER = config('EMAIL_USER')
+# EMAIL_HOST_PASSWORD = config('EMAIL_PASSWORD')
 
 # Messages Tags - Alerts
 MESSAGE_TAGS = {
