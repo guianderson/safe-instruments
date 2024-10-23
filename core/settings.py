@@ -168,11 +168,17 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 # Developer
+# STATIC_URL = '/static/'
+
+# STATIC_ROOT = '/home/guianderson/safe-instruments/static'
+
+# STATICFILES_DIRS = [BASE_DIR, 'static']
+
 STATIC_URL = '/static/'
-
-STATIC_ROOT = '/home/guianderson/safe-instruments/static'
-
-STATICFILES_DIRS = [BASE_DIR, 'static']
+STATIC_ROOT = '/home/guianderson/safe-instruments/static'  # Diretório onde os arquivos estáticos coletados serão armazenados
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',  # Diretórios adicionais onde o Django procurará por arquivos estáticos
+]
 
 # Production
 # STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
