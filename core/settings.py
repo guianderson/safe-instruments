@@ -169,10 +169,7 @@ USE_TZ = False
 
 # Developer
 STATIC_URL = '/static/'
-
-# STATIC_ROOT = '/home/guianderson/safe-instruments/static'
-
-# STATICFILES_DIRS = [BASE_DIR, 'static/']
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATICFILES_DIRS = [
     BASE_DIR / 'static',  # Diretórios adicionais onde o Django procurará por arquivos estáticos
