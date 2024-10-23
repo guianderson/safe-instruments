@@ -176,9 +176,11 @@ STATICFILES_DIRS = [BASE_DIR, 'static/']
 
 # STATIC_URL = '/static/'
 # STATIC_ROOT = '/home/guianderson/safe-instruments/static/third_party/'
-# STATICFILES_DIRS = [
-#     BASE_DIR / 'static',  # Diretórios adicionais onde o Django procurará por arquivos estáticos
-# ]
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',  # Diretórios adicionais onde o Django procurará por arquivos estáticos
+    BASE_DIR / 'media',
+    BASE_DIR / 'templates',
+]
 
 # Production
 # STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
