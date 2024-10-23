@@ -107,19 +107,30 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'mysql.connector.django',
+#         'NAME': 'guianderson$santa_casa',
+#         'USER': 'guianderson',
+#         'PASSWORD': 'gui145ibm',
+#         'HOST': 'guianderson.mysql.pythonanywhere-services.com',
+#         # Or an IP Address that your DB is hosted on
+#         'PORT': '3306',
+#         'OPTIONS': {
+#             'use_pure': True,
+#         },
+#     },
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'mysql.connector.django',
-        'NAME': 'santa_casa',
-        'USER': 'guianderson',
-        'PASSWORD': 'gui145ibm',
-        'HOST': 'guianderson.mysql.pythonanywhere-services.com',
-        # Or an IP Address that your DB is hosted on
-        'PORT': '3306',
-        'OPTIONS': {
-            'use_pure': True,
-        },
-    },
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'guianderson$santa_casa',  # Nome do seu banco de dados
+        'USER': 'guianderson',  # Nome de usuário
+        'PASSWORD': 'gui145ibm',  # Sua senha
+        'HOST': 'guianderson.mysql.pythonanywhere-services.com',  # Host do banco de dados
+        'PORT': '3306',  # Porta do MySQL
+    }
 }
 
 # Password validation
