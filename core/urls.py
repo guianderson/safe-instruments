@@ -43,6 +43,7 @@ urlpatterns = [
                   path('home/', include('home.urls')),
                   path('message/private/', include('message_private.urls')),
                   path("app_instrument/", include('app_instrument.urls')),
+                  path("app_instrument_log/", include('app_instrument_log.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # Header Admin

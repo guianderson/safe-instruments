@@ -18,23 +18,23 @@
             <br>
 
             <div class="fieldWrapper mt-3">
-                <label>Avaliação</label>
-                <input type="text" value="{{ object.department_name }}"
+                <label>Instrumento:</label>
+                <input type="text" value="{{ object.instrument_name }}"
                        class="form-control" style="width: 100%;"
                        disabled>
             </div>
 
             <div class="fieldWrapper mt-3">
-                <label>Descrição</label>
+                <label>Departamento:</label>
+                <input type="text" value="{{ object.department }}"
+                       class="form-control" style="width: 100%;"
+                       disabled>
+            </div>
+
+            <div class="fieldWrapper mt-3">
+                <label>Descrição:</label>
                 <input type="text" value="{{ object.description }}"
                        class="form-control" style="width: 100%;"
-                       disabled>
-            </div>
-
-            <div class="fieldWrapper mt-3">
-                <label>Múltiplas Respostas</label>
-                <input type="checkbox" value="{{ object.status }}"
-                       class="form-control" style="width: 1.5%;"
                        disabled>
             </div>
 
@@ -52,11 +52,27 @@
                        disabled>
             </div>
 
+
             <div class="fieldWrapper mt-3">
                 <label>Usuário:</label>
                 <input type="text" value="{{ object.operator.email }}"
                        class="form-control" style="width: 100%;"
                        disabled>
+            </div>
+
+            <div class="fieldWrapper mt-3">
+                <label>Status</label>
+                {% if object.status == 'Ativo' %}
+                    <div class="flex items-center justify-left whitespace-nowrap text-success"><i
+                            data-lucide="check-square" class="w-4 h-4 mr-2"></i> Ativo
+                    </div>
+                {% endif %}
+
+                {% if object.status == 'Inativo' %}
+                    <div class="flex items-center justify-left whitespace-nowrap text-danger"><i
+                            data-lucide="x-square" class="w-4 h-4 mr-2"></i> Inativo
+                    </div>
+                {% endif %}
 
             </div>
 

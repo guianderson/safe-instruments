@@ -8,6 +8,7 @@ from django.urls import reverse_lazy
 from django.shortcuts import redirect
 from django.views.generic import DeleteView
 from app_instrument.models import AppInstrument
+from app_instrument_log.models import AppInstrumentLog
 from message_private.models import MessagePrivate
 from notifications.models import Notifications
 
@@ -20,7 +21,7 @@ class AppInstrumentDeleteSelectedView(LoginRequiredMixin, PermissionRequiredMixi
     raise_exception = False
 
     def handle_no_permission(self):
-        messages.error(self.request, 'Você não possui privilégio suficiente para executar essa operação.')
+        # messages.error(self.request, 'Você não possui privilégio suficiente para executar essa operação.')
         if self.raise_exception:
             raise PermissionDenied(self.get_permission_denied_message())
         return redirect(reverse_lazy('access_denied'))
@@ -51,6 +52,17 @@ class AppInstrumentDeleteSelectedView(LoginRequiredMixin, PermissionRequiredMixi
             objects_to_delete = self.get_object()
             deleted_count = 0
             for obj in objects_to_delete:
+                            
+                AppInstrumentLog.objects.create(
+                    operator=obj.operator,
+                    instrument_id=obj.id,
+                    instrument_name=obj.instrument_name,
+                    description='Equipamento removido do sistema.',
+                    location='Equipamento removido do sistema.',
+                    status='Inativo',
+                    department=obj.department
+                )
+                
                 obj.delete()
                 deleted_count += 1
             if deleted_count > 0:

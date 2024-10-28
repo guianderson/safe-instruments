@@ -196,8 +196,7 @@
                     <div class="side-menu__title"> Início</div>
                 </a>
             </li>
-            {% if request.user.is_staff %}
-
+            
             <li>
                 <a href="{% url 'message_private:list' %}" class="side-menu {{ active_menu_message }}">
                     <div class="side-menu__icon"><i data-lucide="inbox"></i></div>
@@ -227,8 +226,6 @@
                     </li>
                 </ul>
             </li>
-
-            {% endif %}
 
             <!-- END: Menu Apps -->
 

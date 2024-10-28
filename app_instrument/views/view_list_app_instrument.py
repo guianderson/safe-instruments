@@ -8,17 +8,16 @@ from django.views.generic import ListView
 from app_instrument.models import AppInstrument
 from message_private.models import MessagePrivate
 from notifications.models import Notifications
+from django.contrib.auth.models import User
 
-
-class AppInstrumentListView(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, ListView):
+class AppInstrumentListView(LoginRequiredMixin, SuccessMessageMixin, ListView):
     model = AppInstrument
     template_name = 'app_instrument/list_app_instrument.html'
     paginate_by = 15
-    permission_required = 'app_instrument.view_AppInstrument'
     raise_exception = False
 
     def handle_no_permission(self):
-        messages.error(self.request, 'Você não possui privilégio suficiente para executar essa operação.')
+        # messages.error(self.request, 'Você não possui privilégio suficiente para executar essa operação.')
         if self.raise_exception:
             raise PermissionDenied(self.get_permission_denied_message())
         return redirect(reverse_lazy('access_denied'))

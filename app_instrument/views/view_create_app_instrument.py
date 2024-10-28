@@ -11,6 +11,8 @@ from app_instrument.models import AppInstrument
 from message_private.models import MessagePrivate
 from notifications.models import Notifications
 
+from app_instrument_log.models import AppInstrumentLog
+
 
 class AppInstrumentCreateView(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, CreateView):
     model = AppInstrument
@@ -22,7 +24,7 @@ class AppInstrumentCreateView(LoginRequiredMixin, PermissionRequiredMixin, Succe
     raise_exception = False
 
     def handle_no_permission(self):
-        messages.error(self.request, 'Você não possui privilégio suficiente para executar essa operação.')
+        # messages.error(self.request, 'Você não possui privilégio suficiente para executar essa operação.')
         if self.raise_exception:
             raise PermissionDenied(self.get_permission_denied_message())
         return redirect(reverse_lazy('access_denied'))
@@ -42,10 +44,28 @@ class AppInstrumentCreateView(LoginRequiredMixin, PermissionRequiredMixin, Succe
         return context
 
     def form_valid(self, form):
-        try:
-            form.instance.operator = self.request.user
-            return super(AppInstrumentCreateView, self).form_valid(form)
-        except IntegrityError:
-            messages.add_message(self.request, messages.ERROR, 'Não é possível inserir registros em duplicidade!')
+        form.instance.operator = self.request.user
+        create_instrument = AppInstrument.objects.create(
+            operator=form.instance.operator,
+            instrument_name=form.instance.instrument_name,
+            description=form.instance.description,
+            department=form.instance.department,
+            status=form.instance.status,
+            location=form.instance.location
+        )
+        
+        AppInstrumentLog.objects.create(
+            instrument_id=create_instrument.id,
+            operator=form.instance.operator,
+            instrument_name=form.instance.instrument_name,
+            description=form.instance.description,
+            location=form.instance.location,
+            status=form.instance.status,
+            department=form.instance.department
+        )
+        
+        messages.success(self.request, self.success_message)
         return redirect(reverse_lazy('app_instrument:list'))
+            
+        
     

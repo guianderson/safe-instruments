@@ -10,14 +10,13 @@ from message_private.models import MessagePrivate
 from notifications.models import Notifications
 
 
-class AppInstrumentDetailView(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, DetailView):
+class AppInstrumentDetailView(LoginRequiredMixin, SuccessMessageMixin, DetailView):
     model = AppInstrument
     template_name = 'app_instrument/detail_app_instrument.html'
-    permission_required = 'app_instrument.view_AppnIstrument'
     raise_exception = False
 
     def handle_no_permission(self):
-        messages.error(self.request, 'Você não possui privilégio suficiente para executar essa operação.')
+        # messages.error(self.request, 'Você não possui privilégio suficiente para executar essa operação.')
         if self.raise_exception:
             raise PermissionDenied(self.get_permission_denied_message())
         return redirect(reverse_lazy('access_denied'))

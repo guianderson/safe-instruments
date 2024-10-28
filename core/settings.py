@@ -68,6 +68,7 @@ INSTALLED_APPS = [
     'message_private',
     'notifications',
     'app_instrument',
+    'app_instrument_log',
     'django_cleanup',  # End Apps
 ]
 

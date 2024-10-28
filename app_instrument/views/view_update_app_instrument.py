@@ -8,20 +8,20 @@ from django.db import IntegrityError
 from django.views.generic import UpdateView
 from app_instrument.forms import AppInstrumentForm
 from app_instrument.models import AppInstrument
+from app_instrument_log.models import AppInstrumentLog
 from message_private.models import MessagePrivate
 from notifications.models import Notifications
 
-class AppInstrumentUpdateView(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
+class AppInstrumentUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = AppInstrument
     template_name = 'app_instrument/update_app_instrument.html'
     form_class = AppInstrumentForm
     success_message = 'Atualizado com Sucesso.'
     success_url = reverse_lazy('app_instrument:list')
-    permission_required = 'app_instrument.change_AppInstrument'
     raise_exception = False
 
     def handle_no_permission(self):
-        messages.error(self.request, 'Você não possui privilégio suficiente para executar essa operação.')
+        # messages.error(self.request, 'Você não possui privilégio suficiente para executar essa operação.')
         if self.raise_exception:
             raise PermissionDenied(self.get_permission_denied_message())
         return redirect(reverse_lazy('access_denied'))
@@ -42,6 +42,16 @@ class AppInstrumentUpdateView(LoginRequiredMixin, PermissionRequiredMixin, Succe
 
     def form_valid(self, form):
         try:
+            
+            AppInstrumentLog.objects.create(
+                operator=form.instance.operator,
+                instrument_name=form.instance.instrument_name,
+                description=form.instance.description,
+                location=form.instance.location,
+                status=form.instance.status,
+                department=form.instance.department
+            )
+            
             form.instance.operator = self.request.user
             return super(AppInstrumentUpdateView, self).form_valid(form)
         except IntegrityError:

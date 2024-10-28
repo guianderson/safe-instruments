@@ -1,0 +1,1 @@
+from .view_generate_instrument_report import *
