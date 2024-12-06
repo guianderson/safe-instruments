@@ -24,7 +24,7 @@ from core import settings
 from signup.views import SignUpView
 
 urlpatterns = [
-                  path('mktcode/admin/', admin.site.urls),
+                  path('gtec/admin/', admin.site.urls),
 
                   # Accounts
                   path('', LoginView.as_view(template_name='registration/login.html'), name='login'),
